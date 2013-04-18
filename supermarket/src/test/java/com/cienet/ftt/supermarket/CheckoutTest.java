@@ -39,4 +39,17 @@ public class CheckoutTest {
 		assertEquals(1, cart.getSize());
 		assertEquals(8, cart.getOrder("A").getQuantity());
 	}
+	
+	@Test
+	public void testBatchPricingPromotion() {
+		Product a = new Product("A", 2);
+		Cart cart = new Cart();
+		Order order1 = new Order(a, 5);
+		cart.add(order1);
+		Promotion p = new BatchPricingPromotion(a, 3, 4);
+		PromotionManager pm = new NormalPromotionManager();
+		pm.manage(p);
+		cart.setPromotionManager(pm);
+		assertEquals(8, cart.checkout());
+	}
 }
