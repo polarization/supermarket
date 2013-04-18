@@ -21,7 +21,7 @@ public class Cart {
 		int sum = 0;
 		for (Map.Entry<String, Order> entry : orderMap.entrySet()) {
 			Order order = entry.getValue();
-			sum += order.getProduct().getPrice() * order.getQuantity();
+			sum += order.checkout();
 		}
 		return sum;
 	}

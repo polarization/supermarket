@@ -30,4 +30,8 @@ public class Order {
 		this.quantity = quantity;
 	}
 
+	public int checkout() {
+		return product.getPrice() * quantity;
+	}
+
 }
