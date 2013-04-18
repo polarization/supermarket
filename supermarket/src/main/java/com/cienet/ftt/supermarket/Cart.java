@@ -1,20 +1,36 @@
 package com.cienet.ftt.supermarket;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cart {
-	private List<Order> list = new ArrayList<Order>();
+	private Map<String, Order> orderMap = new HashMap<String, Order>();
 
 	public void add(Order order) {
-		list.add(order);
+		String name = order.getProduct().getName();
+		if (orderMap.containsKey(name)) {
+			Order newOrder = new Order(order.getProduct(), order.getQuantity()
+					+ orderMap.get(name).getQuantity());
+			orderMap.put(name, newOrder);
+		} else {
+			orderMap.put(name, order);
+		}
 	}
 
 	public int checkout() {
 		int sum = 0;
-		for (Order order : list) {
+		for (Map.Entry<String, Order> entry : orderMap.entrySet()) {
+			Order order = entry.getValue();
 			sum += order.getProduct().getPrice() * order.getQuantity();
 		}
 		return sum;
+	}
+
+	public int getSize() {
+		return orderMap.size();
+	}
+
+	public Order getOrder(String name) {
+		return orderMap.get(name);
 	}
 }

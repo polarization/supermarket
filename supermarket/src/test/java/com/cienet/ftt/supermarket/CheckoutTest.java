@@ -27,4 +27,16 @@ public class CheckoutTest {
 		cart.add(order2);
 		assertEquals(19, cart.checkout());
 	}
+	
+	@Test
+	public void testCartMerge() {
+		Product a = new Product("A", 2);
+		Cart cart = new Cart();
+		Order order1 = new Order(a, 5);
+		Order order2 = new Order(a, 3);
+		cart.add(order1);
+		cart.add(order2);
+		assertEquals(1, cart.getSize());
+		assertEquals(8, cart.getOrder("A").getQuantity());
+	}
 }
