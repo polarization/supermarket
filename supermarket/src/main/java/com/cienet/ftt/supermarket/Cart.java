@@ -4,6 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cart {
+	public Cart(PromotionManager promotionManager) {
+		super();
+		this.promotionManager = promotionManager;
+	}
+
+	public Cart() {
+		super();
+		this.promotionManager = new NonePromotionManager();
+	}
+
 	private Map<String, Order> orderMap = new HashMap<String, Order>();
 	private PromotionManager promotionManager;
 
@@ -26,11 +36,7 @@ public class Cart {
 		int sum = 0;
 		for (Map.Entry<String, Order> entry : orderMap.entrySet()) {
 			Order order = entry.getValue();
-			if (promotionManager != null) {
-				sum += promotionManager.checkout(order);
-			} else {
-				sum += order.checkout();
-			}
+			sum += promotionManager.checkout(order);
 		}
 		return sum;
 	}
