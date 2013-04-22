@@ -5,6 +5,7 @@ public class BatchPricingPromotion implements Promotion {
 	private Product product;
 	private int batchSize;
 	private int batchPrice;
+	private Checkable checkable;
 
 	public BatchPricingPromotion(Product product, int batchSize, int batchPrice) {
 		super();
@@ -45,41 +46,35 @@ public class BatchPricingPromotion implements Promotion {
 		return batchSize < order.getQuantity();
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + batchPrice;
-		result = prime * result + batchSize;
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
-		return result;
+	public int checkout() {
+		return batchPrice + checkable.checkout();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BatchPricingPromotion other = (BatchPricingPromotion) obj;
-		if (batchPrice != other.batchPrice)
-			return false;
-		if (batchSize != other.batchSize)
-			return false;
-		if (product == null) {
-			if (other.product != null)
-				return false;
-		} else if (!product.equals(other.product))
-			return false;
-		return true;
+	public int getUncheckQuantity() {
+		return checkable.getUncheckQuantity();
 	}
 
-	public int checkout(Order order) {
-		return batchPrice * (order.getQuantity() / batchSize)
-				+ (order.getQuantity() % batchSize)
-				* order.getProduct().getPrice();
+	public void setUncheckQuantity(int uncheck) {
+		checkable.setUncheckQuantity(uncheck);
 	}
 
+	public boolean isEnable(Checkable checkable) {
+		return batchSize <= checkable.getUncheckQuantity()
+				&& product.equals(checkable.getProduct());
+	}
+
+	public void setCheckable(Checkable checkable) {
+		this.checkable = checkable;
+		this.checkable.setUncheckQuantity(checkable.getUncheckQuantity()
+				- batchSize);
+	}
+
+	public Promotion copy() {
+		BatchPricingPromotion copy = new BatchPricingPromotion(product,
+				batchSize, batchPrice);
+		if (checkable != null) {
+			copy.setCheckable(checkable.copy());
+		}
+		return copy;
+	}
 }

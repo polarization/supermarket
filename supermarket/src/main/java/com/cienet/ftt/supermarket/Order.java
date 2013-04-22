@@ -1,13 +1,16 @@
 package com.cienet.ftt.supermarket;
 
-public class Order {
+public class Order implements Checkable {
+
 	private Product product;
 	private int quantity;
+	private int uncheck;
 
 	public Order(Product product, int quantity) {
 		super();
 		this.product = product;
 		this.quantity = quantity;
+		this.uncheck = quantity;
 	}
 
 	public Order() {
@@ -31,7 +34,20 @@ public class Order {
 	}
 
 	public int checkout() {
-		return product.getPrice() * quantity;
+		return product.getPrice() * uncheck;
+	}
+
+	public int getUncheckQuantity() {
+		return uncheck;
+	}
+
+	public void setUncheckQuantity(int uncheck) {
+		this.uncheck = uncheck;
+	}
+
+	public Checkable copy() {
+		Order order = new Order(product, quantity);
+		return order;
 	}
 
 }

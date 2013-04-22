@@ -52,4 +52,22 @@ public class CheckoutTest {
 		cart.setPromotionManager(pm);
 		assertEquals(8, cart.checkout());
 	}
+	
+	@Test
+	public void testAdvanceBatchPricingPromotion() {
+		Product a = new Product("A", 2);
+		Product b = new Product("B", 3);
+		Cart cart = new Cart();
+		Order order1 = new Order(a, 15);
+		Order order2 = new Order(b, 3);
+		cart.add(order1);
+		cart.add(order2);
+		Promotion p1 = new BatchPricingPromotion(a, 3, 4);
+		Promotion p2 = new BatchPricingPromotion(a, 10, 10);
+		PromotionManager pm = new NormalPromotionManager();
+		pm.manage(p1);
+		pm.manage(p2);
+		cart.setPromotionManager(pm);
+		assertEquals(27, cart.checkout());
+	}
 }

@@ -1,7 +1,7 @@
 package com.cienet.ftt.supermarket;
 
-public interface Promotion {
-	public boolean isEnable(Order order);
+public interface Promotion extends Checkable {
+	public boolean isEnable(Checkable checkable);
 
-	public int checkout(Order order);
+	public void setCheckable(Checkable checkable);
 }
