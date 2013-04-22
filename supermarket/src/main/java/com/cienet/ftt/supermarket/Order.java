@@ -1,6 +1,6 @@
 package com.cienet.ftt.supermarket;
 
-public class Order implements Checkable {
+public class Order implements Checkable<Order> {
 
 	private Product product;
 	private int quantity;
@@ -45,7 +45,7 @@ public class Order implements Checkable {
 		this.uncheck = uncheck;
 	}
 
-	public Checkable copy() {
+	public Order copy() {
 		Order order = new Order(product, quantity);
 		return order;
 	}

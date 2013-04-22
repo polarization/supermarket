@@ -1,9 +1,13 @@
 package com.cienet.ftt.supermarket;
 
-public interface Checkable {
+public interface Checkable<T extends Checkable<?>> {
 	public int checkout();
+
 	public int getUncheckQuantity();
+
 	public void setUncheckQuantity(int uncheck);
-	public Checkable copy();
+
+	public T copy();
+
 	public Product getProduct();
 }
